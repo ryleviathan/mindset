@@ -1,0 +1,17 @@
+# Ignore Core WordPress Files
+/wp-admin/
+/wp-includes/
+/wp-content/languages/
+/wp-content/upgrades/
+*.php
+!wp-content/
+
+# Ignore the config file (CRITICAL FOR SECURITY))
+wp-config.php
+
+# Ignore heavy media uploads
+/wp-content/uploads/
+
+# Ignore OS files
+.DS_STORE
+Thumbs.db
