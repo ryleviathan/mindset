@@ -148,13 +148,6 @@
 				}
 			},
 			"core/pullquote": {
-				"elements": {
-					"cite": {
-						"typography": {
-							"font-size": "var(--wp--preset--font-size--medium)"
-						}
-					}
-				},
 				"spacing": {
 					"padding": {
 						"bottom": "var(--wp--preset--spacing--50)",
@@ -262,5 +255,14 @@
 			"name": "sidebar",
 			"title": "Sidebar"
 		}
-	]
+	],
+	"customTemplates": [
+	{
+		"name": "full-width-page",
+		"title": "Full Width Page",
+		"postTypes": [
+			"page"
+		]
+	}
+]
 }
