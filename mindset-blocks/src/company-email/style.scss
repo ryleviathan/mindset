@@ -1,0 +1,40 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ */
+
+.wp-block-mindset-blocks-company-email {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    // Remove margin from the paragraph inside the block
+    p {
+        margin: 0;
+        font-style: normal;
+    }
+
+    // Email link styling
+    a {
+        text-decoration: none;
+        color: inherit; // Matches the link color to your text color
+        transition: opacity 0.2s ease;
+
+        &:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
+    }
+
+    // Icon specific styling
+    svg {
+        width: 2rem;
+        height: 2rem;
+        vertical-align: middle;
+        flex-shrink: 0; // Prevents the icon from squishing if the text is long
+
+        path {
+            fill: currentColor; // Icon color matches the text color
+        }
+    }
+}

@@ -27,6 +27,32 @@ return array(
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php'
 	),
+	'company-email' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'mindset-blocks/company-email',
+		'version' => '1.0.0',
+		'title' => 'Company Email',
+		'category' => 'text',
+		'icon' => 'email-alt',
+		'description' => 'Output the company email with an optional icon.',
+		'example' => array(
+			
+		),
+		'supports' => array(
+			'html' => false
+		),
+		'attributes' => array(
+			'svgIcon' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
+		),
+		'textdomain' => 'company-email',
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
 	'copyright-date' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,

@@ -65,3 +65,24 @@ add_filter( 'image_size_names_choose', 'mindset_add_custom_image_sizes' );
 
 // Load custom blocks.
 require get_theme_file_path() . '/mindset-blocks/mindset-blocks.php';
+
+/**
+ * Register Custom Meta for Company Blocks
+ */
+function mindset_register_meta() {
+    // Register the Email Meta
+    register_post_meta( 'page', 'company_email', array(
+        'show_in_rest' => true,
+        'single'       => true,
+        'type'         => 'string',
+    ) );
+
+    // IMPORTANT: Make sure the Address meta is also registered 
+    // if you are still using the original block too!
+    register_post_meta( 'page', 'company_address', array(
+        'show_in_rest' => true,
+        'single'       => true,
+        'type'         => 'string',
+    ) );
+}
+add_action( 'init', 'mindset_register_meta' );
