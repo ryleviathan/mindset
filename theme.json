@@ -1,6 +1,15 @@
 {
 	"$schema": "https://schemas.wp.org/wp/6.9/theme.json",
 	"version": 3,
+	"customTemplates": [
+		{
+			"name": "full-width-page",
+			"postTypes": [
+				"page"
+			],
+			"title": "Full Width Page"
+		}
+	],
 	"settings": {
 		"appearanceTools": true,
 		"color": {
@@ -255,14 +264,5 @@
 			"name": "sidebar",
 			"title": "Sidebar"
 		}
-	],
-	"customTemplates": [
-	{
-		"name": "full-width-page",
-		"title": "Full Width Page",
-		"postTypes": [
-			"page"
-		]
-	}
-]
+	]
 }
