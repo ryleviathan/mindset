@@ -86,3 +86,8 @@ function mindset_register_meta() {
     ) );
 }
 add_action( 'init', 'mindset_register_meta' );
+
+/**
+* Custom Post Types & Custom Taxonomies
+*/
+require get_template_directory() . '/inc/post-types-taxonomies.php';
