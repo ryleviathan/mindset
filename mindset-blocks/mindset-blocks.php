@@ -1,84 +1,83 @@
 <?php
 /**
- * Registers the block(s) metadata from the `blocks-manifest.php`
+ * Plugin Name: Mindset Blocks
+ * Description: Custom Gutenberg blocks for the Mindset theme.
+ * Version: 1.0.0
+ * Author: FWD
  */
-function mindset_blocks_mindset_blocks_block_init() {
-    // This line registers ALL your blocks at once from the build folder
-    wp_register_block_types_from_metadata_collection( __DIR__ . '/build', __DIR__ . '/build/blocks-manifest.php' );
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
 }
-add_action( 'init', 'mindset_blocks_mindset_blocks_block_init' );
 
 /**
- * 1. The Rendering Function for Services
- * This is what outputs the HTML for the Services block specifically.
+ * Register the blocks
+ */
+function mindset_blocks_init() {
+    register_block_type( __DIR__ . '/build/company-services', array(
+        'render_callback' => 'mindset_render_services_jump_links',
+    ) );
+}
+add_action( 'init', 'mindset_blocks_init' );
+
+/**
+ * Render Callback for the Services Jump Links Block
+ * This version organizes posts by their Taxonomy Terms (Service Types)
  */
 function mindset_render_services_jump_links( $attributes, $content, $block ) {
-    $services_query = new WP_Query( array(
-        'post_type'      => 'fwd-service',
-        'posts_per_page' => -1,
-        'orderby'        => 'title',
-        'order'          => 'ASC',
+    // 1. Get all terms from our 'fwd-service-type' taxonomy
+    $terms = get_terms( array(
+        'taxonomy'   => 'fwd-service-type',
+        'hide_empty' => true, // Only show terms that actually have posts
     ) );
 
-    if ( ! $services_query->have_posts() ) {
-        return '<p>' . __( 'No services found.', 'mindset-theme' ) . '</p>';
+    // If no terms exist, show a helpful message
+    if ( empty( $terms ) || is_wp_error( $terms ) ) {
+        return '<p>' . __( 'No service categories found. Please add Service Types and assign them to your services.', 'mindset-theme' ) . '</p>';
     }
 
     ob_start();
     ?>
     <div class="wp-block-mindset-blocks-company-services">
-        <nav class="services-jump-navigation">
-            <ul>
-                <?php while ( $services_query->have_posts() ) : $services_query->the_post(); 
-                    $anchor_id = sanitize_title( get_the_title() ); 
+        <?php 
+        // 2. Loop through each Category (Term)
+        foreach ( $terms as $term ) : ?>
+            <div class="service-taxonomy-group" style="margin-bottom: 2rem;">
+                <h2 class="taxonomy-title">
+                    <?php echo esc_html( $term->name ); ?>
+                </h2>
+                
+                <?php
+                // 3. Query only the services belonging to this specific term
+                $services_query = new WP_Query( array(
+                    'post_type'      => 'fwd-service',
+                    'posts_per_page' => -1,
+                    'tax_query'      => array(
+                        array(
+                            'taxonomy' => 'fwd-service-type',
+                            'field'    => 'slug',
+                            'terms'    => $term->slug,
+                        ),
+                    ),
+                ) );
+
+                if ( $services_query->have_posts() ) : ?>
+                    <ul class="service-links-list">
+                        <?php while ( $services_query->have_posts() ) : $services_query->the_post(); ?>
+                            <li class="service-link-item">
+                                <a href="#<?php echo sanitize_title( get_the_title() ); ?>">
+                                    <?php the_title(); ?>
+                                </a>
+                            </li>
+                        <?php endwhile; ?>
+                    </ul>
+                <?php 
+                endif; 
+                wp_reset_postdata(); // Reset the global $post object for the next loop
                 ?>
-                    <li>
-                        <a href="#<?php echo esc_attr( $anchor_id ); ?>">
-                            <?php the_title(); ?>
-                        </a>
-                    </li>
-                <?php endwhile; ?>
-            </ul>
-        </nav>
+            </div>
+        <?php endforeach; ?>
     </div>
     <?php
-    wp_reset_postdata();
     return ob_get_clean();
 }
-
-/**
- * 2. The Filter
- * This attaches the function above to the specific block name.
- */
-function mindset_register_dynamic_render_callbacks( $args, $name ) {
-    if ( $name === 'mindset-blocks/company-services' ) {
-        $args['render_callback'] = 'mindset_render_services_jump_links';
-    }
-    return $args;
-}
-add_filter( 'register_block_type_args', 'mindset_register_dynamic_render_callbacks', 10, 2 );
-
-/**
-* 3. Custom Fields
-*/
-function mindset_register_custom_fields() {
-    register_post_meta(
-        'page',
-        'company_email',
-        array(
-            'type'         => 'string',
-            'show_in_rest' => true,
-            'single'       => true
-        )
-    );
-    register_post_meta(
-        'page',
-        'company_address',
-        array(
-            'type'         => 'string',
-            'show_in_rest' => true,
-            'single'       => true
-        )
-    );
-}
-add_action( 'init', 'mindset_register_custom_fields' );
