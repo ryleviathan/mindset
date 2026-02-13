@@ -38,6 +38,8 @@ function mindset_blocks_init() {
     register_block_type( __DIR__ . '/build/copyright-date', array(
         'render_callback' => 'mindset_render_copyright_date',
     ) );
+
+    register_block_type( __DIR__ . '/build/testimonial-slider' );
 }
 add_action( 'init', 'mindset_blocks_init' );
 

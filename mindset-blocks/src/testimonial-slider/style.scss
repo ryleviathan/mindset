@@ -1,0 +1,29 @@
+@import "swiper/css/bundle";
+
+.wp-block-mindset-blocks-testimonial-slider {
+    padding: 40px 0;
+    color: #000;
+
+    .swiper-slide {
+        text-align: center;
+        padding: 20px;
+    }
+
+    // Apply variable to buttons
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: var(--arrow-color);
+    }
+
+    // Apply variable to active dot
+    .swiper-pagination-bullet-active {
+        background: var(--arrow-color) !important;
+        opacity: 1;
+    }
+
+    // make inactive dots follow the color at a lower opacity
+    .swiper-pagination-bullet {
+        background: var(--arrow-color);
+        opacity: 0.8;
+    }
+}

@@ -91,3 +91,17 @@ add_action( 'init', 'mindset_register_meta' );
 * Custom Post Types & Custom Taxonomies
 */
 require get_template_directory() . '/inc/post-types-taxonomies.php';
+
+add_action( 'init', function() {
+    register_post_type( 'fwd-testimonial', array(
+        'labels' => array(
+            'name' => 'Testimonials',
+            'singular_name' => 'Testimonial',
+        ),
+        'public'      => true,
+        'has_archive' => false,
+        'menu_icon'   => 'dashicons-testimonial',
+        'supports'    => array( 'title', 'editor', 'thumbnail' ),
+        'show_in_rest' => true, // Essential for the Block Editor
+    ) );
+});
